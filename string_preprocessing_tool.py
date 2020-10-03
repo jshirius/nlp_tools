@@ -127,7 +127,12 @@ def clean_keyword_list(keyword_list):
             continue
             
         if(len(keyword) == 1):
-            name = unicodedata.name(keyword)
+
+            try:
+                name = unicodedata.name(keyword)
+            except Exception as e:
+                print(e)
+                continue
             
             #平仮名
             if('KATAKANA' in name or 'HIRAGANA' in name ):
