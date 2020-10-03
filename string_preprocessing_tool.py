@@ -85,7 +85,8 @@ def duplication_exclusion(keyword_list:object):
 
     return out_puts
         
-
+def remove_http(text:str):
+    return re.sub(r'http\S+', '', text)
 
             
 def format_text(text):
