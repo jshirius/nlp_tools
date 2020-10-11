@@ -46,6 +46,34 @@ class JanomeDataSet():
      
         return text_list
 
+    def text_morpheme_list(self, text, part_list = []):
+        """janomeで形態素に分ける（配列で品詞を指定する）
+        
+        Arguments:
+            text [type] -- 形態素に分ける文字列
+        
+        Keyword Arguments:
+            part_list [list] -- 取得する品詞を指定(品詞の設定がない場合はすべて取得)
+     
+        Returns:
+            [type] -- 形態素に分けた結果(リストで返す)
+        """
+        text_list = []
+        for token in self.janome_tokenizer.tokenize(text):
+            
+            #品詞取得
+            part_of_speech = token.part_of_speech.split(',')[0]
+            #品詞指定なし
+            if(len(part_list) == 0):
+                text_list.append(token.surface)
+
+            else:
+                #品詞が設定されているケース
+                if(part_of_speech in part_list):
+                    text_list.append(token.surface)
+    
+        return text_list
+
     def text_reading(self, text, part = ""):
         """janomeで形態素に分けるて読みを返す
         
