@@ -46,7 +46,7 @@ class JanomeDataSet():
      
         return text_list
 
-    def text_morpheme_list(self, text, part_list = []):
+    def text_morpheme_list(self, text, part_list = [], stopword_file = ""):
         """janomeで形態素に分ける（配列で品詞を指定する）
         
         Arguments:
@@ -58,6 +58,16 @@ class JanomeDataSet():
         Returns:
             [type] -- 形態素に分けた結果(リストで返す)
         """
+
+        stopword_list = []
+        #ストップワードの設定
+        if(len(stopword_file) > 0):
+            with open(stopword_file) as fh:
+                for line in fh:
+                    stopword_list.append(line.strip())
+    
+
+
         text_list = []
         for token in self.janome_tokenizer.tokenize(text):
             
@@ -65,14 +75,19 @@ class JanomeDataSet():
             part_of_speech = token.part_of_speech.split(',')[0]
             #品詞指定なし
             if(len(part_list) == 0):
-                text_list.append(token.surface)
+
+                #stopwordがあるときは追加しない
+                if(token.surface not in stopword_list):
+                    text_list.append(token.surface)
 
             else:
                 #品詞が設定されているケース
                 if(part_of_speech in part_list):
-                    text_list.append(token.surface)
+                    if(token.surface not in stopword_list):
+                        text_list.append(token.surface)
     
         return text_list
+
 
     def text_reading(self, text, part = ""):
         """janomeで形態素に分けるて読みを返す
