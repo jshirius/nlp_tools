@@ -144,3 +144,18 @@ def clean_keyword_list(keyword_list):
             output_list.append(keyword)
         
     return output_list
+    
+    
+def normalize_number(text):
+    # 連続した数字を0で置換
+    replaced_text = re.sub(r'\d+', '0', text)
+    return replaced_text
+
+
+#その他サンプル
+
+#@文字列の処理
+#text = re.sub('@\\w+\\s', 'USER', text)
+    
+#リツイートの除外
+#~df["text"].str.contains("RT @") 
